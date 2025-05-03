@@ -9,13 +9,19 @@ import java.nio.file.Path;
 import java.util.Date;
 
 public class DisplayStatusVisitor implements FileVisitor {
+    // ATTRIBUTS
+
     private Registry registry;
     private Path source;
+
+    // CONSTRUCTEUR
 
     public DisplayStatusVisitor(Registry registry, Path source) {
         this.registry = registry;
         this.source = source;
     }
+
+    // COMMANDES
 
     @Override
     public void visitFile(FileLeaf fileLeaf) {

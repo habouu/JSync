@@ -9,14 +9,14 @@ import Composite.FileLeaf;
  */
 public interface FileVisitor {
     /**
-     * Applique une aopération spécifique sur un fichier
-     * @param fileLeaf
+     * Applique une operation spécifique sur un fichier
+     * @param fileLeaf fichier à visiter
      */
     void visitFile(FileLeaf fileLeaf);
 
     /**
      * Applique une opération spécifique sur un dossier
-     * @param directoryComposite
+     * @param directoryComposite répertoire à visiter
      */
     void visitDirectory(DirectoryComposite directoryComposite);
 }

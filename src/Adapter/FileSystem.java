@@ -1,6 +1,5 @@
 package Adapter;
 
-import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Date;
 import java.util.List;
@@ -8,7 +7,7 @@ import java.util.List;
 /**
  * Interface représentant les opérations courantes sur un système de fichier.
  * Définit les méthodes nécessaires pour manipuler les fichiers et les
- *      répertoires: la copie, la suppresion et l'accès aux infos du fichier.
+ *      répertoires: la copie, la suppression et l'accès aux infos du fichier.
  * Les implémentations concrètes de l'interface devront intéragir avec un
  *      système de fichiers spécifique:
  *      - local
@@ -18,10 +17,10 @@ public interface FileSystem {
     // REQUÊTES
 
     /**
-     * Liste les fichiers contenu dans un répertoire donné
+     * Liste les fichiers contenue dans un répertoire donné
      * @param directory chemin du répertoire
      * @return liste de chemin des fichiers du répertoire, liste vide si le
-     *      répertoire est vide, une exceotion est levée si le répertoire
+     *      répertoire est vide, une exception est levée si le répertoire
      *      n'existe pas
      */
     List<Path> listFiles(Path directory);
@@ -50,7 +49,7 @@ public interface FileSystem {
     void deleteFile(Path path);
 
     /**
-     * Vérifie si un fihcier ou un répertoire existe dans le système de fichier
+     * Vérifie si un fichier ou un répertoire existe dans le système de fichier
      * @param path chemin du fichier ou répertoire à vérifier
      * @return {@code true} si le fichier ou répertoire existe, {@code false}
      *      sinon

@@ -41,7 +41,7 @@ public class SynchronizationFacade {
         this.directoryCreator = new FileCreator();
     }
 
-    // COMMANDES
+    // REQUÊTE
 
     /**
      * Création d'un nouveau profil de synchronisation
@@ -57,6 +57,8 @@ public class SynchronizationFacade {
         director.construct(name, source, destination);
         return builder.getResult();
     }
+
+    // COMMANDES
 
     /**
      * Lance la synchronisation entre les répertoires source et destination en

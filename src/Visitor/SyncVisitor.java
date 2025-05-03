@@ -14,9 +14,14 @@ import java.util.Scanner;
  * Visiteur chargé d'appliquer la logique de synchronisation entre le répertoire
  *      source et le répertoire de destination
  * Implémente le patron Visitor pour appliquer cette logique lors du parcours
- *      de l'arboresecence des fichiers. Elle vérifie si les fichiers ont été
+ *      de l'arborescence des fichiers. Elle vérifie si les fichiers ont été
  *      modifiés depuis la dernière synchronisation et les synchronise en
  *      conséquence
+ *      
+ * @see FileVisitor
+ * @see FileComponent
+ * @see Registry
+ * @see FileSystem
  */
 public class SyncVisitor implements FileVisitor {
     // ATTRIBUTS
@@ -41,6 +46,8 @@ public class SyncVisitor implements FileVisitor {
         scanner = new Scanner(System.in);
     }
 
+    // COMMANDES
+
     @Override
     public void visitFile(FileLeaf fileLeaf) {
         Path pathRelatif = source.relativize(fileLeaf.getPath());
@@ -57,7 +64,7 @@ public class SyncVisitor implements FileVisitor {
             if (lastDateSynchronization != null
                     && fileLeaf.getLastModified().after(lastDateSynchronization)
                     && destinationLastModified.after(lastDateSynchronization)) {
-                // ça veut dire conflt
+                // ça veut dire conflict
                 handleConflict(
                         fileLeaf.getPath(),
                         pathDestination,
@@ -66,7 +73,7 @@ public class SyncVisitor implements FileVisitor {
             // cas où c'est le fichier source qui a été modifié
             else if (lastDateSynchronization == null
                     || fileLeaf.getLastModified().after(lastDateSynchronization)) {
-                // ça veut dire on fait la copie
+                // ça veut dire, on fait la copie
                 System.out.println(
                         "copy of: " + fileLeaf.getPath()
                                 + " to " + pathDestination);
@@ -102,7 +109,7 @@ public class SyncVisitor implements FileVisitor {
         // le répertoire de destination doit exister avant toute chose
         if (!fileSystem.exists(destionation)) {
             fileSystem.createDirectory(destionation);
-            System.out.println("created direcoty" + destionation);
+            System.out.println("created directory" + destionation);
         }
 
         for (FileComponent childDirectory : directoryComposite.getChildren()) {
@@ -110,7 +117,18 @@ public class SyncVisitor implements FileVisitor {
         }
     }
 
+    // OUTILS
 
+    /**
+     * Gére les conflits de modification entre deux fichiers, demande à
+     *      l'utilisateur de choisir entre quels fichiers il faut garder
+     *      - source
+     *      - destination
+     *      - ignoré le fichier
+     * @param source chemin du fichier source
+     * @param destination chemin du fichier cible
+     * @param relatif chemin relatif utilisé dans le registre
+     */
     private void handleConflict(Path source, Path destination, Path relatif) {
         System.out.println("conflict: " + relatif);
         System.out.println(
@@ -152,7 +170,12 @@ public class SyncVisitor implements FileVisitor {
         }
     }
 
-
+    /**
+     * Méthode récursive pour synchroniser les fichiers présents uniquement
+     *      dans le répertoire de destination vers celui source
+     * @param destinationPath répertoire cible
+     * @param sourcePath répertoire source
+     */
     private void mustSynchronizeDestinationToSource(Path destinationPath, Path sourcePath) {
 
     }

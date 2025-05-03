@@ -16,7 +16,7 @@ public class DirectoryCreator extends FileComponentCreator {
      * Crée un composant représentant un répertoire (composite)
      * @param path chemin du fichier ou répertoire
      * @param lastModified date de dernière modification
-     * @return un {@code DirecoryComposite}
+     * @return un {@code DirectoryComposite}
      */
     @Override
     public FileComponent factoryMethod(Path path, Date lastModified) {
