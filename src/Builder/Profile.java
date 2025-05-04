@@ -1,29 +1,40 @@
-package ProfileBuilder;
+package Builder;
 
 import java.io.*;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
 /**
  * Représente un profil de synchronisation entre un répertoire source et un
- *      répertoire de destination
- *
+ * répertoire de destination.
  * Le profile contient les informations sur la source, la destination des
- *      répertoires à synchroniser. IL permet de sauvegarder et charger ces
- *      informations depuis un fichier '.sync' à l'aide de la sérialisation.
+ * répertoires à synchroniser. Il permet de sauvegarder et charger ces
+ * informations depuis un fichier d'extension '.sync' à l'aide de la sérialisation.
  */
 public class Profile implements Serializable {
     private static final long serialVersionUID = 1L;
 
     // ATTRIBUTS
 
+    /**
+     * Nom du profil
+     */
     private String name;
-    private Path sourcePath;
-    private Path destinationPath;
+
+    /**
+     * Chemin du répertoire source
+     */
+    private String sourcePath;
+
+    /**
+     * Chemin du répertoire cible
+     */
+    private String ciblePath;
 
     // REQUÊTES
 
     /**
-     * Récupére le nom du profil de synchronisation
+     * Récupère le nom du profil de synchronisation.
      * @return le nom du profil
      */
     public String getProfileName() {
@@ -31,25 +42,25 @@ public class Profile implements Serializable {
     }
 
     /**
-     * Récupère le chemin du répertoire source associé au profil
+     * Récupère le chemin du répertoire source associé au profil.
      * @return le chemin du répertoire source
      */
     public Path getSourceDirectory() {
-        return sourcePath;
+        return Paths.get(sourcePath);
     }
 
     /**
-     * Récupère le chemin du répertoire de destination associé au profil
-     * @return le chemin du répertoire destination
+     * Récupère le chemin du répertoire cible associé au profil.
+     * @return le chemin du répertoire cible
      */
     public Path getDestinationDirectory() {
-        return destinationPath;
+        return Paths.get(ciblePath);
     }
 
     // MÉTHODES
 
     /**
-     * Défini le nom du profile de synchronisation
+     * Défini le nom du profil de synchronisation
      * @param name nom du profil
      */
     public void setProfileName(String name) {
@@ -61,22 +72,22 @@ public class Profile implements Serializable {
      * @param source chemin du répertoire source
      */
     public void setSourceDirectory(Path source) {
-        this.sourcePath = source;
+        this.sourcePath = source.toString();
     }
 
     /**
-     * Défini le chemin du répertoire de destination dans lequel les fichiers
+     * Défini le chemin du répertoire cible dans lequel les fichiers
      * synchronisés sont stockés
-     * @param destination chemin du répertoire de destination
+     * @param destination chemin du répertoire cible
      */
     public void setDestinationDirectory(Path destination) {
-        this.destinationPath = destination;
+        this.ciblePath = destination.toString();
     }
 
     // COMMANDES
 
     /**
-     * Sauvegarde l'état actuel du profil dans un fichier '.sync'
+     * Sauvegarde l'état actuel du profil dans un fichier d'extension '.sync'
      * @throws IOException exception levée en cas d'erreur d'écriture
      */
     public void saveToFile() {
@@ -93,21 +104,21 @@ public class Profile implements Serializable {
     }
 
     /**
-     * Charge le profil sauvegardé dans le fichier '.sync'
+     * Charge le profil sauvegardé dans le fichier d'extension '.sync'
      * @param profileName nom du profil à charger
      * @return l'objet {@link Profile} ou {@code null} en cas d'erreur
      * @throws IOException exception levée en cas d'érreur de lecture
-     * @throws ClassNotFoundException exception levée si la classe Profile
-     *      non trouvée
+     * @throws ClassNotFoundException exception levée si la classe Profile n'est pas trouvée
      */
-    public static Profile loadFromFile(String profileName) {
+    public static Profile loadFromFile(String profileName) throws IOException, ClassNotFoundException {
         String filename = profileName + ".sync";
-        try {
-            ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(filename));
-            return (Profile) inputStream.readObject();
-        } catch (IOException | ClassNotFoundException exception) {
-            System.err.println("Error loading profile from " + filename + ": " + exception.getMessage());
-            return null;
-        }
+
+            ObjectInputStream inputStream = new ObjectInputStream(
+                    new FileInputStream(filename));
+            Profile profile = (Profile) inputStream.readObject();
+            profile.setSourceDirectory(Paths.get(profile.sourcePath));
+            profile.setDestinationDirectory(Paths.get(profile.ciblePath));
+            return profile;
+
     }
 }

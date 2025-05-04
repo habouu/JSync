@@ -8,8 +8,7 @@ import java.util.Date;
 /**
  * Classe abstraite définissant une fabrique de composants de fichiers.
  * Permet de créer dynamiquement des composants de type {@code FileComponent}:
- *      - fichiers
- *      - répertoires
+ * fichiers, répertoires
  * @see FileComponent
  */
 public abstract class FileComponentCreator {

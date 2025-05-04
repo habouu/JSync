@@ -13,7 +13,7 @@ import java.util.stream.Stream;
 
 /**
  * Implémentation concrète de l'interface {@link FileSystem} en utilisant l'API
- *      Java {@code java.nio.file} pour un système de fichiers local
+ * Java {@code java.nio.file} pour un système de fichiers local
  */
 public class LocalFileSystemAdapter implements FileSystem {
     // REQUÊTES

@@ -5,13 +5,21 @@ import Composite.FileComponent;
 import Composite.FileLeaf;
 import Singleton.Registry;
 
+/**
+ *
+ */
 public class RegistryUpdateVisitor implements FileVisitor {
+    // ATTRIBUTS
 
     private Registry registry;
+
+    // CONSTRUCTEUR
 
     public RegistryUpdateVisitor(Registry registry) {
         this.registry = registry;
     }
+
+    // COMMANDES
 
     @Override
     public void visitFile(FileLeaf fileLeaf) {

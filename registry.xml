@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<registry>
+    <file>
+        <path>file1.txt</path>
+        <date>1746308129370</date>
+    </file>
+    <file>
+        <path>file2.txt</path>
+        <date>1746350449147</date>
+    </file>
+</registry>

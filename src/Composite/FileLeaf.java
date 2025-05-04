@@ -8,9 +8,9 @@ import java.util.Date;
 /**
  * Représente une feuille de l'arbre des fichiers.
  * Implémente l'interface {@link FileComponent}, pour s'intégrer dans la
- *      structure composite des fichiers et répertoire
+ * structure composite des fichiers et répertoire
  *
- * @see FileComponent
+ * @see FileComponent interface de manipulation de fichier
  */
 public class FileLeaf implements FileComponent {
     // ATTRIBUTS

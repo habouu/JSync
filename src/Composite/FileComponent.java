@@ -13,7 +13,7 @@ public interface FileComponent {
 
     /**
      * Retourne le chemin absolu du répertoire ou du fichier sous la forme
-     *      de {@link Path}
+     * de {@link Path}
      * @return chemin absolu du répertoire
      */
     Path getPath();
@@ -27,18 +27,16 @@ public interface FileComponent {
     // COMMANDES
 
     /**
-     * Un visiteur applique une action spécifique:
-     *      - {@code visitFile} si c'est un fichier
-     *      - {@code visitDirectory} si un dossier
+     * Un visiteur applique une action spécifique : <br>
+     * - {@code visitFile} si c'est un fichier <br>
+     * - {@code visitDirectory} si un dossier <br>
      * @param fileVisitor visiteur à appliquer
      */
     void accept(FileVisitor fileVisitor);
 
     /**
-     * Si c'est un fichier:
-     *      - affiche le chemin absolu du fichier
-     * Si c'est un répertoire:
-     *      - affiche récursivement la structure du répertoire
+     * Affiche le chemin absolu si l'objet manipulé est un fichier, affiche
+     * récursivement la structure du répertoire sinon
      */
     void print();
 }

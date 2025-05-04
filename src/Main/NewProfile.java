@@ -1,16 +1,31 @@
 package Main;
 
-import ProfileBuilder.BuilderProfileInterface;
-import ProfileBuilder.ConcreteProfileBuilder;
-import ProfileBuilder.Profile;
+import Builder.BuilderProfileInterface;
+import Builder.ConcreteProfileBuilder;
+import Builder.Profile;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+/**
+ * Programme de création d'un nouveau profil de synchronisation.
+ * Il permet à l'utilisateur de spécifier un nom de profil, un répertoire
+ * source et cible pour la synchronisation des fichiers.
+ * <p>Exécution :</p>
+ * <pre>
+ *     java Main.NewProfile nom-du-profil source-dir cible-dir
+ * </pre>
+ *
+ * @see BuilderProfileInterface interface de construction du profil
+ * @see ConcreteProfileBuilder implémentation de l'interface de construction
+ * @see Profile profil de synchronisation
+ */
 public class NewProfile {
     public static void main(String[] args) {
         if (args.length != 3) {
-            System.out.println("Usage:java new-profile <nom-du-profile> <source-dir> <dest-dir>");
+            System.out.println(
+                    "Usage:java Main.NewProfile nom-du-profil source-dir cible-dir"
+            );
         }
 
         String profileName = args[0];
@@ -24,7 +39,6 @@ public class NewProfile {
                 .getResult();
 
         profile.saveToFile();
-
         System.out.println("Profile " + profileName + " saved.");
         System.out.println("Profile Name: " + profileName);
         System.out.println("Source Directory: " + sourceDir);

@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"Adapter"},{"l":"All Packages","u":"allpackages-index.html"},{"l":"Builder"},{"l":"Composite"},{"l":"Facade"},{"l":"FactoryMethod"},{"l":"Main"},{"l":"Singleton"},{"l":"Visitor"}];updateSearchResults();

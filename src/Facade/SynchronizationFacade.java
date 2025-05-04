@@ -3,17 +3,20 @@ package Facade;
 import Adapter.FileSystem;
 import Composite.DirectoryComposite;
 import Composite.FileComponent;
+import FactoryMethod.DirectoryCreator;
 import FactoryMethod.FileComponentCreator;
 import FactoryMethod.FileCreator;
-import ProfileBuilder.BuilderProfileInterface;
-import ProfileBuilder.ConcreteProfileBuilder;
-import ProfileBuilder.Director;
-import ProfileBuilder.Profile;
+import Builder.BuilderProfileInterface;
+import Builder.ConcreteProfileBuilder;
+import Builder.Director;
+import Builder.Profile;
 import Singleton.Registry;
 import Visitor.SyncVisitor;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Date;
 import java.util.List;
 
 
@@ -21,7 +24,7 @@ import java.util.List;
  * Simplification de l'utilisation du système de synchronisation.
  * @see Profile profil de synchronisation
  * @see Visitor.SyncVisitor visiteur qui parcourt les fichiers et dossiers pour
- *      effectuer les actions de synchronisation
+ * effectuer les actions de synchronisation
  * @see Registry registre qui gère les profils
  */
 public class SynchronizationFacade {
@@ -38,7 +41,7 @@ public class SynchronizationFacade {
         this.fileSystem = fileSystem;
         this.registry = Registry.getInstance();
         this.fileComponentCreator = new FileCreator();
-        this.directoryCreator = new FileCreator();
+        this.directoryCreator = new DirectoryCreator();
     }
 
     // REQUÊTE
@@ -62,12 +65,12 @@ public class SynchronizationFacade {
 
     /**
      * Lance la synchronisation entre les répertoires source et destination en
-     *      fonction du profil donné en parcourant et appliquant les
-     *      modifications et les règles de synchronisation nécessaires dans le
-     *      répertoire cible
+     * fonction du profil donné en parcourant et appliquant les
+     * modifications et les règles de synchronisation nécessaires dans le
+     * répertoire cible
      * @param profile profil à utiliser pour la synchronisation
      */
-    public void synchronize(Profile profile) {
+    public void synchronize(Profile profile) throws IOException {
         Path source = profile.getSourceDirectory();
         Path destination = profile.getDestinationDirectory();
         FileComponent fileComponent = buildFileTree(source);
@@ -81,27 +84,32 @@ public class SynchronizationFacade {
 
     /**
      * Parcourt le répertoire donné et crée récursivement une structure
-     *      composite représentant tous les fichiers et répertoires du
-     *      dossier source.
+     * composite représentant tous les fichiers et répertoires du
+     * dossier source.
      * @param source chemin du répertoire source
      * @return structure composite représentant l'arborescence des fichiers du
-     *      répertoire source
+     * répertoire source
      */
     private FileComponent buildFileTree(Path source) {
-        DirectoryComposite directoryComposite =
-                (DirectoryComposite) directoryCreator.factoryMethod(
-                        source, fileSystem.getFileLastModified(source));
-        buildFileTreeRec(directoryComposite, source);
-        return directoryComposite;
+        Date lastModified = fileSystem.getFileLastModified(source);
+        FileComponent rootComponent;
+
+        if (fileSystem.isDirectory(source)) {
+            rootComponent = directoryCreator.factoryMethod(source, lastModified);
+            buildFileTreeRec((DirectoryComposite) rootComponent, source);
+        } else {
+            rootComponent = fileComponentCreator.factoryMethod(source, lastModified);
+        }
+        return rootComponent;
     }
 
     /**
      * Construit récursivement l'arborescence des fichiers sous forme de
-     *      structure composite à partir d'un répertoire donné. Parcourt les
-     *      sous-répertoires et ajoute chaque fichier et répertoire à la
-     *      structure composite.
-     * @param directoryParentComposite composant parent auquel sera ajouté les
-     *                                 fichiers et sous-répertoires
+     * structure composite à partir d'un répertoire donné. Parcourt les
+     * sous-répertoires et ajoute chaque fichier et répertoire à la
+     * structure composite.
+     * @param directoryParentComposite composant parent auquel seront ajoutés les
+     * fichiers et sous-répertoires
      * @param curPath chemin actuel du répertoire ou fichier à ajouter
      */
     private void buildFileTreeRec(

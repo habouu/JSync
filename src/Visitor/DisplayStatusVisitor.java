@@ -8,6 +8,9 @@ import Singleton.Registry;
 import java.nio.file.Path;
 import java.util.Date;
 
+/**
+ *
+ */
 public class DisplayStatusVisitor implements FileVisitor {
     // ATTRIBUTS
 
@@ -16,6 +19,11 @@ public class DisplayStatusVisitor implements FileVisitor {
 
     // CONSTRUCTEUR
 
+    /**
+     * Constructeur
+     * @param registry registre
+     * @param source source
+     */
     public DisplayStatusVisitor(Registry registry, Path source) {
         this.registry = registry;
         this.source = source;

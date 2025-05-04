@@ -9,14 +9,14 @@ import java.util.List;
 
 /**
  * Représente un répertoire dans la structure composite. Le répertoire peut
- *      contenir d'autres fichiers ou des sous-répertoires, ce qui permet
- *      d'avoir une structure hiérarchique du système du fichier et une gestion
- *      récursive de la structure
+ * contenir d'autres fichiers ou des sous-répertoires, ce qui permet
+ * d'avoir une structure hiérarchique du système du fichier et une gestion
+ * récursive de la structure.
  * Implémente l'interface {@link FileComponent} qui permet d'appliquer le
- *      patron Composite, pour avoir un traitement des répertoires et des
- *      fichiers uniforme
+ * patron Composite, pour avoir un traitement des répertoires et des
+ * fichiers uniformes.
  *
- * @see FileComponent
+ * @see FileComponent interface de manipulation de fichier
  */
 public class DirectoryComposite implements FileComponent {
     // ATTRIBUTS
@@ -47,7 +47,7 @@ public class DirectoryComposite implements FileComponent {
 
     /**
      * Retourne la liste des enfants (fichier, répertoires) contenu dans le
-     *      répertoire
+     * répertoire
      * @return liste des composants enfants du répertoire
      */
     public List<FileComponent> getChildren() {
